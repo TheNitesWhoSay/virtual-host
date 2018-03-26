@@ -1,0 +1,16 @@
+spring.application.name: ${SPRING_APPLICATION_NAME:virtual-host}
+spring.profiles.active: ${SPRING_PROFILES_ACTIVE:jj-local}
+
+spring.cloud.config.failFast: ${CLOUD_CONFIG_FAILFAST:false}
+spring.config.retry.initialInterval: ${spring.cloud.config.retry.initialInterval}
+spring.config.retry.maxInterval: ${spring.cloud.config.retry.maxInterval}
+spring.config.retry.maxAttempts: ${spring.cloud.config.retry.maxAttempts}
+
+endpoints.restart.enabled: ${VIRTUAL_ENDPOINT_RESTART_ENABLED:false}
+
+---
+spring:
+  profiles: jj-local
+server:
+  port: 80
+logging.file: logs/virtual-host.log
