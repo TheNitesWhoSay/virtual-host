@@ -74,23 +74,29 @@ public class VirtualHostApp extends GenericFilterBean {
 					HttpEntity<String> requestEntity = null;
 					String bodyContents = null;
 					BufferedReader bodyReader = httpRequest.getReader();
-					if ( bodyReader != null && bodyReader.ready() ) {
-						bodyContents = IOUtils.toString(bodyReader);
-						if ( bodyContents != null && !bodyContents.isEmpty() ) {
-							HttpHeaders requestHeaders = new HttpHeaders();
-							Enumeration<String> headerNames = httpRequest.getHeaderNames();
-							while ( headerNames.hasMoreElements() ) {
-								String headerName = headerNames.nextElement();
-								if ( headerName != null && !headerName.isEmpty() ) {
-									String headerValue = httpRequest.getHeader(headerName);
-									requestHeaders.add(headerName, headerValue);
+					if ( bodyReader != null ) {
+						try {
+							if ( bodyReader != null && bodyReader.ready() ) {
+								bodyContents = IOUtils.toString(bodyReader);
+								if ( bodyContents != null && !bodyContents.isEmpty() ) {
+									HttpHeaders requestHeaders = new HttpHeaders();
+									Enumeration<String> headerNames = httpRequest.getHeaderNames();
+									while ( headerNames.hasMoreElements() ) {
+										String headerName = headerNames.nextElement();
+										if ( headerName != null && !headerName.isEmpty() ) {
+											String headerValue = httpRequest.getHeader(headerName);
+											requestHeaders.add(headerName, headerValue);
+										}
+									}
+									if ( !requestHeaders.isEmpty() ) {
+										requestEntity = new HttpEntity<String>(bodyContents, requestHeaders);
+									} else {
+										requestEntity = new HttpEntity<String>(bodyContents);
+									}
 								}
 							}
-							if ( !requestHeaders.isEmpty() ) {
-								requestEntity = new HttpEntity<String>(bodyContents, requestHeaders);
-							} else {
-								requestEntity = new HttpEntity<String>(bodyContents);
-							}
+						} finally {
+							bodyReader.close();
 						}
 					}
 					
@@ -99,9 +105,10 @@ public class VirtualHostApp extends GenericFilterBean {
 					RestTemplate restTemplate = new RestTemplate();
 					byte[] response = restTemplate.exchange(uri, method, requestEntity, byte[].class).getBody();
 					if ( response != null && response.length > 0 ) {
+						servletResponse.setContentLength(response.length);
 						servletResponse.getOutputStream().write(response);
 					}
-	
+					
 				} catch (URISyntaxException e) {
 					log.error("URISyntaxException ", e);
 				} catch (HttpClientErrorException e) {
