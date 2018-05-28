@@ -4,7 +4,7 @@
 
   <groupId>jj</groupId>
   <artifactId>virtual-host</artifactId>
-  <version>0.0.5-SNAPSHOT</version>
+  <version>0.1.8-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>virtual-host</name>
@@ -45,19 +45,6 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>ma.glasnost.orika</groupId>
-      <artifactId>orika-core</artifactId>
-      <version>1.5.2</version>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
