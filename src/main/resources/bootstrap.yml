@@ -12,5 +12,11 @@ endpoints.restart.enabled: ${VIRTUAL_ENDPOINT_RESTART_ENABLED:false}
 spring:
   profiles: jj-local
 server:
-  port: 80
-logging.file: logs/virtual-host.log
+  port: ${VIRTUAL_HOST_PORT:80}
+logging.file: ${LOG_FILE_PATH:logs/virtual-host.log}
+---
+spring:
+  profiles: jj-server
+server:
+  port: ${VIRTUAL_HOST_PORT:80}
+logging.file: ${LOG_FILE_PATH:logs/virtual-host.log}
